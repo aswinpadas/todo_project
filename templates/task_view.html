@@ -1,30 +1,86 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container">
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="banner-text">
+                <h1>
+                    ToDo
+                </h1>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-6">
-            <form name="" method="post" class="p-3 shadow">
+            <h4>
+                Add task
+            </h4>
+            <form  method="post" class="shadow p-3 mb-5 bg-white rounded">
                 {% csrf_token %}
                 <div class="form-group">
-                <input type="text" name="name" class="form-control" placeholder="Name of the task"value="">
+                <input type="text" name="name" class="form-control" placeholder="Name of the task" required>
                 </div>
                 <div class="form-group">
-                <input type="number" name="priority" class="form-control" placeholder="Priority">
+                <input type="number" name="priority" class="form-control" placeholder="Priority" required>
                 </div>
                 <input type="submit" class="btn btn-success" value="Submit">
             </form>
         </div>
+        <div class="col-md-2"style="border-left:1px solid #000;height:500px"></div>
+        <div class="col-md-4">
+            <div style="display: flex; justify-content: space-between;">
+                <span>
+                    <h4>
+                        Task completed
+                    </h4>
+                </span>
+                <span>
+
+                    <form name="select_delete" id="select_delete" method="get">
+                        <a href="{% url 'multi_delete' %}"> <input type="submit" value="Delete" class="btn btn-danger" form="select_delete"></a>
+                    </form>
+
+                </span>
+            </div>
+
+            {% for result in obj_task %}
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body" style="display: flex; justify-content: space-between;">
+                        <span>
+                            <input type="checkbox" value="{{ result.id }}" form="select_delete">
+                        </span>
+                        <span>
+                            <h5 class="card-title">{{ result.name }}</h5>
+                            <p class="card-text">Priority : {{ result.priority}} </p>
+                            <!--a href="{% url  'delete' result.id %} " class="btn btn-danger">Delete task</a-->
+                        </span>
+                         <span class="material-icons" >
+                            <a href="{% url 'delete' result.id %}"> delete </a>
+                        </span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
+
 </div>
-<hr>
-{% for result in obj_task %}
-<div class="card" style="width: 18rem;">
-  <div class="card-body" style="width: 18rem;">
-    <h5 class="card-title">Name : {{ result.name}}</h5>
-    <h6 class="card-subtitle mb-2 text-muted">Priority : {{ result.priority}}</h6>
-  </div>
-</div>
-{% endfor %}
+<!--<div class="container">-->
+<!--    <div class="row">-->
+<!--        <div class="col-md-6">-->
+
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--{% for result in obj_task %}-->
+<!--<div class="card" style="width: 18rem;">-->
+<!--  <div class="card-body" style="width: 18rem;">-->
+<!--    <h5 class="card-title">Name : {{ result.name}}</h5>-->
+<!--    <h6 class="card-subtitle mb-2 text-muted">Priority : {{ result.priority}}</h6>-->
+<!--  </div>-->
+<!--</div>-->
+<!--{% endfor %}-->
 <!--{% for result in obj_task %}-->
 <!--{{ result.name}} -&#45;&#45;&ndash;&gt; <br>-->
 <!--{% endfor %}-->
