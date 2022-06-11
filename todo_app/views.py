@@ -22,8 +22,19 @@ def task_view(req):
         return redirect('/')
         # req.POST.reset()
     obj_task_2 = Task.objects.all()
-
     return render(req, "task_view.html", {'obj_task': obj_task_2})
+
+def edit_task_view(req,id):
+    if req.method == 'POST':
+        obj_task = Task.objects.get(id=id)
+        name = req.POST.get('name')
+        priority = req.POST.get('priority')
+        obj_task.setTask(name,priority)
+        obj_task.save()
+        return redirect('/')
+        # req.POST.reset()
+    obj_task_2 = Task.objects.get(id=id)
+    return render(req, "edit_task_view.html", {'result': obj_task_2})
 
 
 def delete(req, id):

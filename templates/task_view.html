@@ -70,17 +70,13 @@
                         </span>
                         <br>
                         <span class="material-icons">
-                            edit
-                            {% comment %}
-                          <!--a href="{% %}"></a>-->
-                            {% endcomment %}
+                           <a href="{% url 'edit_task_view' result.id %}">edit</a>
                         </span>
                     </div>
                 </div>
             {% endfor %}
         </div>
     </div>
-
 </div>
 <!--<div class="container">-->
 <!--    <div class="row">-->

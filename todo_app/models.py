@@ -9,3 +9,6 @@ class Task(models.Model):
         return self.name
     name=models.CharField(max_length=100)
     priority=models.IntegerField()
+    def setTask(self,name,priority):
+        self.name=name
+        self.priority=priority
