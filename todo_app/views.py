@@ -2,6 +2,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 # Create your views here.
+from django.views.generic import ListView
+
 from todo_app.models import Task
 
 
@@ -12,12 +14,19 @@ from todo_app.models import Task
 #         obj_task=Task(name=name,priority=priority)
 #         obj_task.save()
 #     return  render(req,"task.html",{})
+
+class TaskListView(ListView):
+    model = Task
+    template_name = 'task_view.html'
+    context_object_name = 'obj_task'
+
 def task_view(req):
     if req.method == 'POST':
         print('request is', req.POST)
         name = req.POST.get('name')
         priority = req.POST.get('priority')
-        obj_task_1 = Task(name=name, priority=priority)
+        date = req.POST.get('date')
+        obj_task_1 = Task(name=name, priority=priority,date=date)
         obj_task_1.save()
         return redirect('/')
         # req.POST.reset()
@@ -29,7 +38,8 @@ def edit_task_view(req,id):
         obj_task = Task.objects.get(id=id)
         name = req.POST.get('name')
         priority = req.POST.get('priority')
-        obj_task.setTask(name,priority)
+        date = req.POST.get('date')
+        obj_task.setTask(name,priority,date)
         obj_task.save()
         return redirect('/')
         # req.POST.reset()

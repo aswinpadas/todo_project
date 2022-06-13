@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 
 # Create your models here.
@@ -9,6 +11,8 @@ class Task(models.Model):
         return self.name
     name=models.CharField(max_length=100)
     priority=models.IntegerField()
-    def setTask(self,name,priority):
+    date= models.DateField(default=datetime.date.today())
+    def setTask(self,name,priority,date):
         self.name=name
         self.priority=priority
+        self.date=date
