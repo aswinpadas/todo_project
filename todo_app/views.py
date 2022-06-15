@@ -31,10 +31,21 @@ def task_view(req):
         return redirect('/')
         # req.POST.reset()
     obj_task_2 = Task.objects.all()
-    return render(req, "task_view.html", {'obj_task': obj_task_2})
+    taskname=''
+    taskpriority=''
+    title='Add task'
+    button_name='Submit'
+    return render(req, "task_view.html", {'obj_task': obj_task_2, 'obj_taskname':taskname, 'obj_taskpriority':taskpriority, 'title':title, 'button_name':button_name})
 
 def edit_task_view(req,id):
+    obj_task_2 = Task.objects.all()
+    obj_task_3 = Task.objects.get(id=id)
+    taskname=obj_task_3.name
+    taskpriority=obj_task_3.priority
+    title='Edit Task'
     if req.method == 'POST':
+        obj_task = Task.objects.get(id=id)
+        # print('request is', req.POST)
         obj_task = Task.objects.get(id=id)
         name = req.POST.get('name')
         priority = req.POST.get('priority')
@@ -43,8 +54,22 @@ def edit_task_view(req,id):
         obj_task.save()
         return redirect('/')
         # req.POST.reset()
-    obj_task_2 = Task.objects.get(id=id)
-    return render(req, "edit_task_view.html", {'result': obj_task_2})
+    button_name = 'Update'
+
+    return render(req, "task_view.html", {'obj_task': obj_task_2, 'obj_taskname':taskname, 'obj_taskpriority':taskpriority, 'title':title, 'button_name':button_name})
+
+    # if req.method == 'POST':
+    #     obj_task = Task.objects.get(id=id)
+    #     name = req.POST.get('name')
+    #     priority = req.POST.get('priority')
+    #     date = req.POST.get('date')
+    #     obj_task.setTask(name,priority,date)
+    #     obj_task.save()
+    #     return redirect('/')
+    #     # req.POST.reset()
+    # obj_task_2 = Task.objects.get(id=id)
+    # return render(req, "edit_task_view.html", {'result': obj_task_2})
+
 
 
 def delete(req, id):

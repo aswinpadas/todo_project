@@ -25,20 +25,20 @@
     <div class="row">
         <div class="col-md-6">
             <h4>
-                Add task
+                {{title}}
             </h4>
             <form  method="post" class="shadow p-3 mb-5 bg-white rounded">
                 {% csrf_token %}
                 <div class="form-group">
-                <input type="text" name="name" class="form-control" placeholder="Name of the task" required>
+                <input type="text" name="name" value="{{obj_taskname}}" class="form-control" placeholder="Name of the task" required>
                 </div>
                 <div class="form-group">
-                <input type="number" name="priority" class="form-control" placeholder="Priority" required>
+                <input type="number" name="priority" class="form-control" value="{{obj_taskpriority}}" placeholder="Priority" required>
                 </div>
                 <div class="form-group">
                 <input type="date" name="date" class="form-control"  placeholder=Date required >
                 </div>
-                <input type="submit" class="btn btn-success" value="Submit">
+                <input type="submit" class="btn btn-success" value={{button_name}}>
             </form>
         </div>
         <div class="col-md-2"style="border-left:1px solid #000;height:500px"></div>
