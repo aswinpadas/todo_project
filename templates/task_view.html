@@ -11,6 +11,7 @@
          window.location.href = '/multi_delete/'+ids.join()+'/';
         }
     }
+
 </script>
 <div class="container-fluid">
     <div class="row">
@@ -23,26 +24,85 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <h4>
                 {{title}}
             </h4>
-            <form  method="post" class="shadow p-3 mb-5 bg-white rounded">
+            <form method="post" class="shadow p-3 mb-5 bg-white rounded">
                 {% csrf_token %}
                 <div class="form-group">
-                <input type="text" name="name" value="{{obj_taskname}}" class="form-control" placeholder="Name of the task" required>
+                    <input type="text" name="name" value="{{obj_taskname}}" class="form-control"
+                           placeholder="Name of the task" required>
                 </div>
                 <div class="form-group">
-                <input type="number" name="priority" class="form-control" value="{{obj_taskpriority}}" placeholder="Priority" required>
+                    <input type="number" name="priority" class="form-control" value="{{obj_taskpriority}}"
+                           placeholder="Priority" required>
                 </div>
                 <div class="form-group">
-                <input type="date" name="date" class="form-control"  placeholder=Date required >
+                    <input type="date" name="date" class="form-control" placeholder=Date value="{{date|date:"Y-m-d"}}" required>
                 </div>
                 <input type="submit" class="btn btn-success" value={{button_name}}>
             </form>
         </div>
-        <div class="col-md-2"style="border-left:1px solid #000;height:500px"></div>
-        <div class="col-md-4">
+        <div class="col-md-0.5" style="border-left:1px solid #000;height:auto"></div>
+
+
+
+
+
+
+
+
+
+
+
+        <div class="col-md-3">
+            <div style="display: flex; justify-content: space-between;">
+                <span>
+                    <h4>
+                        Tasks
+
+                    </h4>
+                </span>
+                <span>
+                    <button onclick="onMultiDeleteClick()" class="btn btn-danger">Delete</button>
+                </span>
+            </div>
+<br>
+            {% for result in obj_task %}
+
+
+            <div class="{% if result.priority > 0 %} card bg-light mb-3 {% else %} card text-white bg-danger mb-3 {% endif %}"
+                 style="max-width: 18rem;">
+                <div class="card-body" style="display: flex; justify-content: space-between;">
+                        <span>
+                            <input type="checkbox" value="{{ result.id }}" form="select_delete">
+                        </span>
+                    <span>
+                            <h5 class="card-title">{{ result.name }}</h5>
+                            <p class="card-text">Date : {{ result.date }} </p>
+                            <p class="card-text">Priority : {{ result.priority}} </p>
+                        <!--a href="{% url  'delete' result.id %} " class="btn btn-danger">Delete task</a-->
+                        </span>
+
+                    <span class="material-icons">
+                            <a href="{% url 'delete' result.id %}"> delete </a>
+                        </span>
+                    <br>
+                    <span class="material-icons">
+                           <a href="{% url 'edit_task_view' result.id %}">edit</a>
+                        </span>
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
+
+
+
+<div class="col-md-1" style="border-right:1px solid #000;height:auto"></div>
+
+                <div class="col-md-3">
             <div style="display: flex; justify-content: space-between;">
                 <span>
                     <h4>
@@ -53,28 +113,33 @@
                     <button onclick="onMultiDeleteClick()" class="btn btn-danger">Delete</button>
                 </span>
             </div>
-
+<br>
             {% for result in obj_task %}
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body" style="display: flex; justify-content: space-between;">
+
+
+            <div class="{% if result.priority > 0 %} card bg-light mb-3 {% else %} card text-white bg-danger mb-3 {% endif %}"
+                 style="max-width: 18rem;">
+                <div class="card-body" style="display: flex; justify-content: space-between;">
                         <span>
                             <input type="checkbox" value="{{ result.id }}" form="select_delete">
                         </span>
-                        <span>
+                    <span>
                             <h5 class="card-title">{{ result.name }}</h5>
                             <p class="card-text">Date : {{ result.date }} </p>
                             <p class="card-text">Priority : {{ result.priority}} </p>
-                            <!--a href="{% url  'delete' result.id %} " class="btn btn-danger">Delete task</a-->
+                        <!--a href="{% url  'delete' result.id %} " class="btn btn-danger">Delete task</a-->
                         </span>
-                         <span class="material-icons" >
+
+                    <span class="material-icons">
                             <a href="{% url 'delete' result.id %}"> delete </a>
                         </span>
-                        <br>
-                        <span class="material-icons">
+                    <br>
+                    <span class="material-icons">
                            <a href="{% url 'edit_task_view' result.id %}">edit</a>
                         </span>
-                    </div>
                 </div>
+            </div>
+
             {% endfor %}
         </div>
     </div>
