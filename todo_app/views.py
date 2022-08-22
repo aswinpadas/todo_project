@@ -1,12 +1,13 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from .serializers import TaskSerializers
+from .serializers import TaskSerializers, UserSerializers
 from .models import Task
 # Create your views here.
 from django.views.generic import ListView
-
+from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework import viewsets
-
+from rest_framework.generics import CreateAPIView
+from django.contrib.auth import get_user_model
 
 # def task(req):
 #     if req.method=='POST':
@@ -17,8 +18,10 @@ from rest_framework import viewsets
 #     return  render(req,"task.html",{})
 
 class TaskViewset(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
     queryset = Task.objects.all().order_by('date')
     serializer_class = TaskSerializers
+
 
 
 class DueTaskViewset(viewsets.ModelViewSet):
@@ -28,6 +31,12 @@ class DueTaskViewset(viewsets.ModelViewSet):
 class CompletedTaskviewset(viewsets.ModelViewSet):
     queryset = Task.objects.all().order_by('date').filter(completed=True)
     serializer_class = TaskSerializers
+
+
+class CreateUserView(CreateAPIView):
+    model=get_user_model()
+    permission_classes = (AllowAny,)
+    serializer_class = UserSerializers
 
 
 class TaskListView(ListView):
